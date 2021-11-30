@@ -28,19 +28,6 @@ async def register_user(message: types.Message):
     id = user.id
     count_users = await db.count_users()
 
-    # Отдадим пользователю клавиатуру с выбором языков
-    # languages_markup = InlineKeyboardMarkup(
-    #     inline_keyboard=
-    #     [
-    #         [
-    #             InlineKeyboardButton(text="Русский", callback_data="lang_ru")],
-    #         [
-    #             InlineKeyboardButton(text="English", callback_data="lang_en"),
-    #             InlineKeyboardButton(text="O`zbek", callback_data="lang_uz"),
-    #         ]
-    #     ]
-    # )
-
     bot_username = (await bot.me).username
     bot_link = f"https://t.me/{bot_username}?start={id}"
 
@@ -48,7 +35,7 @@ async def register_user(message: types.Message):
     # Вместо "текст" передаем _("текст")
 
     text = ("Xush kelibsiz!!\n"
-            # "Сейчас в базе {count_users} человек!\n"
+             #"Hozir bazada {count_users} foydalanuvchi bor!\n"
              "Sizning refral havolangiz✔️✔️: {bot_link}\n"
              "Referalingizni ushbu kamanda orqali aniqlashingiz mumkin: /referrals\nMahsulotlarni ko`rish🆓: /items\n").format(
         count_users=count_users,
@@ -139,29 +126,6 @@ async def enter_quantity(message: Message, state: FSMContext):
         amount = item.price * quantity
         data["purchase"].amount = amount
 
-    # # Создаем кнопки
-    # agree_button = InlineKeyboardButton(
-    #     text="Roziman😊",
-    #     callback_data="agree"
-    # )
-    # change_button = InlineKeyboardButton(
-    #     text="Qaytadan qiymat kiritish↩️↩️",
-    #     callback_data="change"
-    # )
-    # cancel_button = InlineKeyboardButton(
-    #     text="Bekor qilish❎",
-    #     callback_data="cancel"
-    # )
-    #
-    # # Создаем клавиатуру
-    # markup = InlineKeyboardMarkup(
-    #     inline_keyboard=
-    #     [
-    #         [agree_button],  # Первый ряд кнопок
-    #         [change_button],  # Второй ряд кнопок
-    #         [cancel_button]  # Третий ряд кнопок
-    #     ]
-    # )
     await message.answer(
         "Yaxshi, Siz<i>{quantity}</i> {name}ni  <b>{price:,}💵narxda sotib olyapsiz.</b>\n\n"
           "Ummumiy<b>{amount:,}ta</b>. Tasdiqlaysizmi?".format(
@@ -208,12 +172,7 @@ async def approval(call: CallbackQuery, state: FSMContext):
     await purchase.create()
     await bot.send_message(chat_id=call.from_user.id,
                            text="Umumiy<b>{amount:,}</b> \nQuyidagi tugma orqali to`lang 👇👇".format(amount=purchase.amount))
-    ################
-    # --Ниже выбрать нужные параметры--
-    # Пример заполнения можно посмотреть тут https://surik00.gitbooks.io/aiogram-lessons/content/chapter4.html
-    # Но прошу обратить внимание, те уроки по старой версии aiogram и давно не обновлялись, так что могут быть
-    # несостыковки.
-    ################
+
     currency = "UZS"
     need_name = True
     need_phone_number = False

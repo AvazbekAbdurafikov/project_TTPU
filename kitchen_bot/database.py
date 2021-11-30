@@ -10,8 +10,7 @@ from config import db_pass, db_user, host
 db = Gino()
 
 
-# Документация
-# http://gino.fantix.pro/en/latest/tutorials/tutorial.html
+
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -80,11 +79,6 @@ class DBCommands:
             new_user.referral = int(referral)
         await new_user.create()
         return new_user
-
-    # async def set_language(self, language):
-    #     user_id = types.User.get_current().id
-    #     user = await self.get_user(user_id)
-    #     await user.update(language=language).apply()
 
     async def count_users(self) -> int:
         total = await db.func.count(User.id).gino.scalar()

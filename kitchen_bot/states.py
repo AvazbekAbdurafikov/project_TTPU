@@ -14,6 +14,3 @@ class NewItem(StatesGroup):
     Confirm = State()
 
 
-# class Mailing(StatesGroup):
-#     Text = State()
-#     Language = State()
