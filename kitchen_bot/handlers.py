@@ -33,12 +33,12 @@ async def register_user(message: types.Message):
     bot_username = (await bot.me).username
     bot_link = f"https://t.me/{bot_username}?start={id}"
 
-    # Для многоязычности, все тексты, передаваемые пользователю должны передаваться в функцию "_"
-    # Вместо "текст" передаем _("текст")
 
     text = ("Xush kelibsiz!!\n"
-             #"Hozir bazada {count_users} foydalanuvchi bor!\n"
+
              "Sizning refral havolangiz✔️✔️: {bot_link}\n"
+             "Agar xatolikka duch kelsagniz menga yozing👇👇\n"
+            "           @Abdurafikov0221      \n"  
              "Referalingizni ushbu kamanda orqali aniqlashingiz mumkin: /referrals\nMahsulotlarni ko`rish🆓: 👇Mahsulotlar👇 tugmasi orqali\n").format(
         count_users=count_users,
         bot_link=bot_link
@@ -68,7 +68,6 @@ async def show_items(message: Message):
             inline_keyboard=
             [
                 [
-                    # Создаем кнопку "купить" и передаем ее айдишник в функцию создания коллбека
                     InlineKeyboardButton(text="💵Xarid qilish💵", callback_data=buy_item.new(item_id=item.id))
                 ],
             ]
@@ -101,7 +100,7 @@ async def buying_item(call: CallbackQuery, callback_data: dict, state: FSMContex
         await call.message.answer("Bu Mahsulot mavjud emas😔😔")
         return
 
-    text = "Mahsulot \"<b>{name}</b>\" Narxi: <i>{price:,}/dona.\n</i>Mahsulot miqdorini kiriting yoki \n cancel tugmasini bosing".format(name=item.name,
+    text = "Mahsulot \"<b>{name}</b>\" Narxi: <i>{price:,}/dona.\n</i>❗️Mahsulot miqdorini kiriting ❗️".format(name=item.name,
                                                              price=item.price / 100)
     await call.message.answer(text)
     await states.Purchase.EnterQuantity.set()

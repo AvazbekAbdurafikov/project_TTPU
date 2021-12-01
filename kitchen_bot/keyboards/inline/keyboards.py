@@ -19,8 +19,61 @@ cancel_button = InlineKeyboardButton(
 markup = InlineKeyboardMarkup(
     inline_keyboard=
     [
-        [agree_button],  # Первый ряд кнопок
-        [change_button],  # Второй ряд кнопок
-        [cancel_button]  # Третий ряд кнопок
+        [agree_button],
+        [change_button],
+        [cancel_button]
     ]
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Loyiha Abdurafikov Avazbek tomonidan qilindi!
