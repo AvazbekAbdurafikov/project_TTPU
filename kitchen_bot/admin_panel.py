@@ -1,23 +1,22 @@
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 from config import admin_id
-from load_all import dp, bot
+from keyboards.default.admin_item import menu
+from load_all import dp
 from states import NewItem
-from database import Item, User
+from database import Item
 
 
-@dp.message_handler(user_id=admin_id, commands=["cancel"], state=NewItem)
+@dp.message_handler(user_id=admin_id, text=["cancel"], state=NewItem)
 async def cancel(message: types.Message, state: FSMContext):
     await message.answer("Siz Mahsulotni bekor qildingiz😒😒")
     await state.reset_state()
 
 
-@dp.message_handler(user_id=admin_id, commands=["add_item"])
+@dp.message_handler(user_id=admin_id, text=("Mahsulot_qo`shish"))
 async def add_item(message: types.Message):
-    await message.answer("Mahsulot nomini kiriting yoki 👉 /cancel ni bosing")
+    await message.answer("Mahsulot nomini kiriting yoki\n 👇 cancel 👇 tugmasini bosing", reply_markup=menu)
     await NewItem.Name.set()
 
 
@@ -28,7 +27,7 @@ async def enter_name(message: types.Message, state: FSMContext):
     item.name = name
 
     await message.answer("Mahsulot nomi: {name}✅✅"
-                           "\nMahsulot rasmini jo`nating yoki 👉 /cancel ni bosing".format(name=name))
+                           "\nMahsulot rasmini jo`nating yoki\n 👇cancel👇 tugmasini bosing".format(name=name))
 
     await NewItem.Photo.set()
     await state.update_data(item=item)
@@ -44,10 +43,11 @@ async def add_photo(message: types.Message, state: FSMContext):
     await message.answer_photo(
         photo=photo,
         caption="Mahsulot nomi: {name}✅✅"
-                  "\nMahsulot narxini tiyinlarda yuboring💰💰 yoki 👉  /cancel ni bosing".format(name=item.name))
+                  "\nMahsulot narxini  yuboring💰\n ‼️Narxi 1100000 dan kam bo`lmasin‼️ yoki\n 👇  cancel 👇tugmasini bosing".format(name=item.name))
 
     await NewItem.Price.set()
     await state.update_data(item=item)
+
 
 
 @dp.message_handler(user_id=admin_id, state=NewItem.Price)
@@ -58,8 +58,7 @@ async def enter_price(message: types.Message, state: FSMContext):
         price = int(message.text)
     except ValueError:
         await message.answer("Noto`g`i qadam⚠️⚠, raqam kiriting")
-        return
-
+        return()
     item.price = price
     markup = InlineKeyboardMarkup(
         inline_keyboard=
@@ -69,7 +68,7 @@ async def enter_price(message: types.Message, state: FSMContext):
         ]
     )
     await message.answer("Narxi: {price:,}\n"
-                           "Tasdiqlaysizmi? \n Ortga qaytish uchun 👉 /cancel bosing".format(price=price / 100),
+                           "Tasdiqlaysizmi? \n Ortga qaytish uchun\n 👇 cancel👇tumasini bosing".format(price=price / 100),
                          reply_markup=markup)
     await state.update_data(item=item)
     await NewItem.Confirm.set()
@@ -96,5 +95,5 @@ async def enter_price(call: types.CallbackQuery, state: FSMContext):
 @dp.message_handler(user_id=admin_id, commands=["tell_everyone"])
 async def mailing(message: types.Message):
     await message.answer("Matn yuboring✈️✈️")
-    await Mailing.Text.set()
+
 

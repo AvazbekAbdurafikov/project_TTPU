@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 from aiogram import Bot
@@ -11,7 +10,6 @@ from config import TOKEN
 logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d] #%(levelname)-8s [%(asctime)s]  %(message)s',
                     level=logging.INFO)
 
-# Поток нам не нужен, т.к. он и так создается в диспатчере.
 
 storage = MemoryStorage()
 

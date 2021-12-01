@@ -5,9 +5,11 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.types import (Message, InlineKeyboardMarkup, InlineKeyboardButton,
-                           CallbackQuery, LabeledPrice, PreCheckoutQuery, pre_checkout_query)
+                           CallbackQuery, LabeledPrice, PreCheckoutQuery)
 from aiogram.utils.callback_data import CallbackData
-from keyboards import markup
+
+from keyboards.default.admin_item import item
+from keyboards.inline.keyboards import markup
 import database
 import states
 from config import lp_token, admin_id
@@ -37,13 +39,13 @@ async def register_user(message: types.Message):
     text = ("Xush kelibsiz!!\n"
              #"Hozir bazada {count_users} foydalanuvchi bor!\n"
              "Sizning refral havolangiz✔️✔️: {bot_link}\n"
-             "Referalingizni ushbu kamanda orqali aniqlashingiz mumkin: /referrals\nMahsulotlarni ko`rish🆓: /items\n").format(
+             "Referalingizni ushbu kamanda orqali aniqlashingiz mumkin: /referrals\nMahsulotlarni ko`rish🆓: 👇Mahsulotlar👇 tugmasi orqali\n").format(
         count_users=count_users,
         bot_link=bot_link
     )
     if message.from_user.id == admin_id:
-        text += "Yangi mahsulot🥙 qo`shish: /add_item"
-    await bot.send_message(chat_id, text)# reply_markup=languages_markup)
+        text += "Yangi mahsulot🥙 qo`shish uchun: \nMahsulotlar_qo`shish tugmasini bosing"
+    await bot.send_message(chat_id, text, reply_markup=item)
 
 
 
@@ -55,13 +57,13 @@ async def check_referrals(message: types.Message):
 
 
 # Показываем список доступных товаров
-@dp.message_handler(commands=["items"])
+@dp.message_handler(text=("Mahsulotlar"))
 async def show_items(message: Message):
     # Достаем товары из базы данных
     all_items = await db.show_items()
     # Проходимся по товарам, пронумеровывая
     for num, item in enumerate(all_items):
-        text = "<b>Mahsulot</b> \t№{id}: <u>{name}</u>\n<b>Narxi💸:</b> \t{price:,}"
+        text = "<b>Mahsulot</b> \t№{id}: <u>{name}</u>\n<b>Narxi💸: </b> \t{price:,}"
         markup = InlineKeyboardMarkup(
             inline_keyboard=
             [
@@ -99,7 +101,7 @@ async def buying_item(call: CallbackQuery, callback_data: dict, state: FSMContex
         await call.message.answer("Bu Mahsulot mavjud emas😔😔")
         return
 
-    text = "Mahsulot \"<b>{name}</b>\" Narxi: <i>{price:,}/dona.</i>Mahsulot miqdorini kiriting yoki /cancel ni bosing".format(name=item.name,
+    text = "Mahsulot \"<b>{name}</b>\" Narxi: <i>{price:,}/dona.\n</i>Mahsulot miqdorini kiriting yoki \n cancel tugmasini bosing".format(name=item.name,
                                                              price=item.price / 100)
     await call.message.answer(text)
     await states.Purchase.EnterQuantity.set()
@@ -127,8 +129,8 @@ async def enter_quantity(message: Message, state: FSMContext):
         data["purchase"].amount = amount
 
     await message.answer(
-        "Yaxshi, Siz<i>{quantity}</i> {name}ni  <b>{price:,}💵narxda sotib olyapsiz.</b>\n\n"
-          "Ummumiy<b>{amount:,}ta</b>. Tasdiqlaysizmi?".format(
+        "Yaxshi, Siz<i> {quantity}</i> {name}ni  <b>{price:,}💵 narxda sotib olyapsiz.</b>\n\n"
+          "Ummumiy <b>{amount:,}ta</b>. Tasdiqlaysizmi?".format(
             quantity=quantity,
             name=item.name,
             amount=amount / 100,
@@ -219,10 +221,10 @@ async def checkout(query: PreCheckoutQuery, state: FSMContext):
         await bot.send_message(query.from_user.id, "😊Xarid uchun raxmat😊")
         await bot.send_message(chat_id=admin_id, text=f"telefon raqam: {purchase.phone_number}\n"
                                f"id: {purchase.id}\n"
-                               f"To`lov miqdori: {purchase.amount}\n"
+                               f"To`lov miqdori: {purchase.amount / 100}so`m\n"
                                f"Sotib olingan vaqti: {purchase.purchase_time}\n"
-                               f"Sotib oluvchi: {purchase.buyer}\n"
-                               f"Mahsulot Id si: {purchase.item_id}\n"
+                               f"Sotib oluvchi ID raqami: {purchase.buyer}\n"
+                               f"Mahsulot raqami: {purchase.item_id}\n"
                                f"Muvafaqiyatli?: {purchase.successful}\n"
                                f"Oluvchi: {purchase.receiver}\n"
                                f"Olish manzili: {purchase.shipping_address}\n"

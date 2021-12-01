@@ -1,5 +1,3 @@
-
-# Создаем кнопки
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.callback_data import CallbackData
 
@@ -18,7 +16,6 @@ cancel_button = InlineKeyboardButton(
     callback_data="cancel"
 )
 
-# Создаем клавиатуру
 markup = InlineKeyboardMarkup(
     inline_keyboard=
     [
