@@ -4,9 +4,11 @@ menu = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="Mahsulot_qo`shish"),
-            KeyboardButton(text="Mahsulotlar"),
             KeyboardButton(text="❌cancel❌"),
         ],
+        [
+            KeyboardButton(text="Mahsulotlar"),
+        ]
     ],
     resize_keyboard=True,
     one_time_keyboard=True,

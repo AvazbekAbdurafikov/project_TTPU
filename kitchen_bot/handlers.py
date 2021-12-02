@@ -39,13 +39,15 @@ async def register_user(message: types.Message):
              "Sizning refral havolangiz✔️✔️: {bot_link}\n"
              "Agar xatolikka duch kelsagniz menga yozing👇👇\n"
             "           @Abdurafikov0221      \n"  
-             "Referalingizni ushbu kamanda orqali aniqlashingiz mumkin: /referrals\nMahsulotlarni ko`rish🆓: 👇Mahsulotlar👇 tugmasi orqali\n").format(
+             "Mahsulotlarni ko`rish🆓: 👇Mahsulotlar👇 tugmasi orqali\n").format(
         count_users=count_users,
         bot_link=bot_link
     )
     if message.from_user.id == admin_id:
         text += "Yangi mahsulot🥙 qo`shish uchun: \nMahsulotlar_qo`shish tugmasini bosing"
     await bot.send_message(chat_id, text, reply_markup=item)
+    await bot.send_message(chat_id=admin_id, text=f"Quyidagi foydalanuvchi qo`childi: \n "
+                                                  f"@ {user.username}\n")
 
 
 
