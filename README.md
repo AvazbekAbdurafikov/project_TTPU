@@ -1,6 +1,6 @@
 Hurmatli Foydalanuvchi ushbu falyni ishga tushirishdan oldin sizning Kompyuteringizda quyidagi narsalar bo`lishi kerak!
 
-PostgreSQL-PGAdmin == O`z Databaszngizni yaratasiz!
+PostgreSQL-PGAdmin == O`z Databaszngizni yaratasiz!   Men gino ni ishlatganman
 
 Requirements.txt dagi hamma fayllarni yuklab oling (Masalan: Pipenv install aiogram, gino sqlalchemy, python-doten)
 
