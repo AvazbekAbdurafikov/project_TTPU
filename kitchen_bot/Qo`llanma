@@ -6,7 +6,7 @@ Requirements.txt dagi hamma fayllarni yuklab oling (Masalan: Pipenv install aiog
 
 .env fayl yaratib uni example.env dagi kabi to`ldiring Faqat o`z malumotlaringiz bilan To`ldirasiz!
 
-
+                        !!Oxirgi qadam app.py ni ishga tushirasiz!!
                                      TAMOM
 
 

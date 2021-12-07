@@ -178,8 +178,8 @@ async def approval(call: CallbackQuery, state: FSMContext):
 
     currency = "UZS"
     need_name = True
-    need_phone_number = False
-    need_email = False
+    need_phone_number = True
+    need_email = True
     need_shipping_address = True
 
     await bot.send_invoice(chat_id=call.from_user.id,
